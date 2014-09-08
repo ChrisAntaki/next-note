@@ -20,13 +20,36 @@ vector<string> loadNotes () {
 	return notes;
 }
 
-int main() {
-	vector<string> notes = loadNotes();
+vector<string> loadChords () {
+	string chord;
+	vector<string> chords;
+	ifstream file("chords.txt");
+	do {
+		if (!chord.empty()) {
+			chords.push_back(chord);
+		}
+	} while (getline(file, chord));
 
+	return chords;
+}
+
+int main (int argc, char const *argv[]) {
+	// Seed random number generator
 	srand(time(NULL));
-	int index = rand() % notes.size();
 
-	cout << notes[index] << endl;
+	// Pick a note
+	vector<string> notes = loadNotes();
+	int index = rand() % notes.size();
+	string note = notes[index];
+	cout << note << endl;
+
+	if (argc == 2 && string(argv[1]) == "-c") {
+		// Pick a chord
+		vector<string> chords = loadChords();
+		index = rand() % chords.size();
+		string chord = chords[index];
+		cout << chord << endl;
+	}
 
 	return 0;
 }
